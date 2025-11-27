@@ -4,8 +4,6 @@
 #include <cmath>
 using namespace std;
 
-
-
 vector<shared_ptr<Point>> StrategieOrdreID::ordonnerPoints(const vector<shared_ptr<Point>>& points) const {
     vector<shared_ptr<Point>> orderedPoints = points;
     sort(orderedPoints.begin(), orderedPoints.end(), [](const shared_ptr<Point>& a, const shared_ptr<Point>& b) {
@@ -13,10 +11,6 @@ vector<shared_ptr<Point>> StrategieOrdreID::ordonnerPoints(const vector<shared_p
     });
     return orderedPoints;
 }
-
-
-
-
 
 vector<shared_ptr<Point>> StrategieDistanceMin::ordonnerPoints(const vector<shared_ptr<Point>>& points)const{
     if(points.empty()){

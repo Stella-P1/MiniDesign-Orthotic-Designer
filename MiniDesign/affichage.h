@@ -3,6 +3,7 @@
 #include <vector>
 #include "point.h"
 
+
 const int LARGEUR = 30;
 const int HAUTEUR = 20;
 

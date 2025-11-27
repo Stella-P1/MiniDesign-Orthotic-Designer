@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
     
 
     vector<Point> points = creerPoints(args);
-    vector<char> texturesNuages = {'o', '#', '$'};
+    vector<string> texturesNuages = {"o", "#", "$"};
     Gestionnaire gestionnaire(points, texturesNuages);
     AffichageTexture affichageTexture;
     AffichageID affichageID;

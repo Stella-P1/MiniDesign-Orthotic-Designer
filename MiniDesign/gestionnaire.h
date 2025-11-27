@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <memory>
+#include <string>
 #include "point.h"
 #include "nuage.h"
 #include "strategieSurface.h"
@@ -10,10 +11,10 @@ class Gestionnaire {
 private:
 std::vector<std::shared_ptr<Point>> points;
 std::vector<Nuage> nuages;
-std::vector<char> texturesNuages;
+std::vector<string> texturesNuages;
 
 public:
-Gestionnaire(const std::vector<Point>& pointsInitiaux, const std::vector<char>& textures);
+Gestionnaire(const std::vector<Point>& pointsInitiaux, const std::vector<string>& textures);
 void afficherPointsEtNuages() const;
 void afficherOrthese(const StrategieAffichage& strategie) const;
 void fusionnerPoints(const std::vector<int>& ids);

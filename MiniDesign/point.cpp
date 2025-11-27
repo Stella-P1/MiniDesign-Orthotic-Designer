@@ -1,6 +1,8 @@
 #include "point.h"
 int Point::prochainID = 0;
-Point::Point(int x, int y) : x(x), y(y), texture('.') {
+std::string texture1 = ".";
+std::string textureBase = "";
+Point::Point(int x, int y) : x(x), y(y), texture(textureBase) {
     id = prochainID++;
 }
 int Point::getID() const {
@@ -12,13 +14,23 @@ int Point::getX() const {
 int Point::getY() const {
     return y;
 }
-char Point::getTexture() const {
+string Point::getTexture() const {
     return texture;
 }
 void Point::setPosition(int x, int y) {
     this->x = x;
     this->y = y;
 }
-void Point::setTexture(char t) {
+void Point::setTexture(string t) {
     texture = t;
+}
+void Point::ajouterTexture(string t) {
+    if (texture == texture1) {
+        texture = t;
+    } else {
+        texture += t;
+    }
+}
+void Point::resetID() {
+    prochainID = 0;
 }

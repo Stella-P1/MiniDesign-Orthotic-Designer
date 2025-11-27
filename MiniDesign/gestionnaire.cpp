@@ -4,19 +4,19 @@
 #include <algorithm>
 using namespace std;
 
-Gestionnaire::Gestionnaire(const vector<Point>& pointsInitiaux, const vector<char>& textures):texturesNuages(textures) {
+Gestionnaire::Gestionnaire(const vector<Point>& pointsInitiaux, const vector<string>& textures):texturesNuages(textures) {
+    Point::resetID();
     for (const auto& p : pointsInitiaux) {
         points.push_back(make_shared<Point>(p.getX(), p.getY()));
     }
 }
-
 
 void Gestionnaire::afficherPointsEtNuages() const {
     cout << "\n=== Points ===\n";
     for (const auto& p : points) {
         cout << "Point " << p->getID() 
              << " : (" << p->getX() << "," << p->getY() << ") "
-             << "texture: " << p->getTexture() << "\n";
+             << "textures: '" << p->getTexture() << "'\n";
     }
     
     cout << "\n=== Nuages ===\n";
@@ -31,36 +31,36 @@ void Gestionnaire::afficherPointsEtNuages() const {
     }
 }
 
-
-void Gestionnaire::afficherOrthese(const StrategieAffichage& strategie)const {
-    vector<vector<char>> grille(HAUTEUR, vector<char>(LARGEUR, ' '));
-    for (const auto& p:points){
+void Gestionnaire::afficherOrthese(const StrategieAffichage& strategie) const {
+    vector<vector<string>> grille(HAUTEUR, vector<string>(LARGEUR, " "));
+    for (const auto& p : points) {
         int x = p->getX();
         int y = p->getY();
-        if (x>=0 && x<LARGEUR && y>=0 && y<HAUTEUR){
+        if (x >= 0 && x < LARGEUR && y >= 0 && y < HAUTEUR) {
             grille[y][x] = strategie.getSymbole(p);
         }
     }
-    cout<<"\n";
-    for(int y = HAUTEUR-1;y>=0;--y){
-        for(int x=0;x<LARGEUR;++x){
-            cout<<grille[y][x];
+    cout << "\n";
+    for (int y = HAUTEUR - 1; y >= 0; --y) {
+        for (int x = 0; x < LARGEUR; ++x) {
+            cout << grille[y][x];
         }
-        cout<<'\n';
+        cout << '\n';
     }
 }
 
 
 void Gestionnaire::fusionnerPoints(const vector<int>& ids){
     if (ids.empty()) return;
-    char texture = texturesNuages[nuages.size()%texturesNuages.size()];
+    string texture = texturesNuages[nuages.size()%texturesNuages.size()];
     Nuage nouveauNuage(texture);
     for (int id : ids) {
         auto it = find_if(points.begin(), points.end(),
             [id](const shared_ptr<Point>& p) { return p->getID() == id; });
-        
         if (it != points.end()) {
+            (*it)->ajouterTexture(texture);
             nouveauNuage.ajouterPoint(*it);
+            
         }
     }
     nuages.push_back(nouveauNuage);
