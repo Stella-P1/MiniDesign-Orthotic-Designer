@@ -1,23 +1,31 @@
 #pragma once
-#include <string>   
 #include <string>
+#include "element.h"
+
 using namespace std;
-class Point {
+
+class Point : public Element {
 private:
-    static int prochainID;
-    int id;
     int x, y;
+    int id;
     string texture;
+    static int prochainID;
     
 public:
     Point(int x, int y);
-    int getID() const;
+    Point(Element& parent, int x, int y);
+    Point(const Point& other);  // ← Ajoutez ce constructeur
+    virtual ~Point() = default;
+    
+    virtual int getID() const override;
     int getX() const;
     int getY() const;
-    string getTexture() const;
+    virtual string getTexture() const override;
     void setPosition(int x, int y);
     void setTexture(string t);
-    void ajouterTexture(string t);
-
+    virtual void ajouterTexture(const string& t) override;
+    virtual void afficher() const override;
+    virtual bool estComposite() const override { return false; }
+    
     static void resetID();
 };

@@ -43,6 +43,8 @@ int main(int argc, char* argv[]) {
                   << "s  - Supprimer un point (ID)\n"
                   << "c1 - Créer les surfaces selon l'ordre des IDs\n"
                   << "c2 - Créer les surfaces selon la distance minimale\n"
+                  << "u  - Annuler la derniere action\n"
+                  << "r  - Reappliquer la derniere action annulee\n"
                   << "q  - Quitter\n> ";
         getline(std::cin, cmd);
 
@@ -91,9 +93,15 @@ int main(int argc, char* argv[]) {
         else if (cmd == "c2") {
             gestionnaire.creerSurfaces(strategieC2);
         }
+        else if (cmd == "u") {
+            gestionnaire.undo();
+        } else if (cmd == "r") {
+            gestionnaire.redo();
+        }
         else {
             cout << "Commande inconnue\n";
         }
+        
     }
 
     return 0;

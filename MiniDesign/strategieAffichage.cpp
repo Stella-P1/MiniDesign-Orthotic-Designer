@@ -2,7 +2,11 @@
 using namespace std;
 
 string AffichageTexture::getSymbole(const shared_ptr<Point>& point) const {
-    return point->getTexture();
+    string texture = point->getTexture();
+    if (texture.empty()) {
+        return ".";
+    }
+    return texture;
 }
 
 string AffichageID::getSymbole(const shared_ptr<Point>& point) const {

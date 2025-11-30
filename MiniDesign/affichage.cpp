@@ -8,31 +8,53 @@
 using namespace std;
 
 void tracerLigne(vector<vector<char>>& grille, int x0, int y0, int x1, int y1) {
-    // Distance verticale
-    int lignes = abs(y1 - y0);
-    // Si la ligne est horizontale 
-    if (lignes == 0) {
-        // On prend distance horizontale 
-        lignes = abs(x1 - x0);
-        for (int i = 0; i <= lignes; ++i) {
-            // On trace chaque point de la ligne, de gauche à droite ou de droite à gauche selon la direction.
-            int x = (x0 < x1) ? x0 + i : x0 - i;
-            if (y1 >= 0 && y1 < HAUTEUR && x >= 0 && x < LARGEUR)
-                grille[y1][x] = '/';
+    int dx = abs(x1 - x0);
+    int dy = abs(y1 - y0);
+    int sx = (x0 < x1) ? 1 : -1;
+    int sy = (y0 < y1) ? 1 : -1;
+    int err = dx - dy;
+    
+    int x = x0;
+    int y = y0;
+    
+    while (true) {
+        if (x >= 0 && x < LARGEUR && y >= 0 && y < HAUTEUR) {
+            char symbole;
+            
+            if (dx > dy) {
+                if (dy == 0) {
+                    symbole = '-';
+                } else if (sy > 0) {
+                    symbole = '/';
+                } else {
+                    symbole = '\\';
+                }
+            } else {
+                if (dx == 0) {
+                    symbole = '|';
+                } else if ((sx > 0 && sy > 0) || (sx < 0 && sy < 0)) {
+                    symbole = '/';
+                } else {
+                    symbole = '\\';
+                }
+            }
+            
+            grille[y][x] = symbole;
         }
-    } else {
-        // Si la ligne est verticale ou diagonale 
-        for (int i = 0; i <= lignes; ++i) {
-            double t = (double)i / lignes;
-            // On fait une interpolation lineaire
-            int x = round(x0 + t * (x1 - x0));
-            int y = round(y0 + t * (y1 - y0));
-            if (x >= 0 && x < LARGEUR && y >= 0 && y < HAUTEUR)
-                grille[y][x] = '/';
+        
+        if (x == x1 && y == y1) break;
+        
+        int e2 = 2 * err;
+        if (e2 > -dy) {
+            err -= dy;
+            x += sx;
+        }
+        if (e2 < dx) {
+            err += dx;
+            y += sy;
         }
     }
 }
-
 
 void imprimerGrille(const vector<Point>& points) {
     vector<vector<char>> grille(HAUTEUR, vector<char>(LARGEUR, ' '));
